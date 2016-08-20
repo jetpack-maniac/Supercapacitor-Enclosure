@@ -47,13 +47,19 @@ module supportSkeletize(){
 }
 
 module screwTapping(){
-    // adds screw holes for the lid
-    for(x=[0:numberCellWidth]){
-        for(y=[0:numberCellLength]){
-            translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),height-screwLength])
-            cylinder(h = screwLength, d = screwSize);
-        }
-    }    
+    for(x=[0:numberCellLength-1]){
+        translate([buffer+cellSize+(cellSize*x),buffer,height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+        translate([buffer+cellSize+(cellSize*x),yBankLength-buffer,height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+    }
+
+    for(y=[0:numberCellWidth-1]){
+        translate([buffer,buffer+cellSize+(cellSize*y),height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+        translate([xBankLength-buffer,buffer+cellSize+(cellSize*y),height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+    }
 }
 
 difference(){
