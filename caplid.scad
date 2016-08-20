@@ -6,8 +6,8 @@ height = 5;
 buffer = 3;
 xBankLength = 2*buffer + numberCellLength*cellSize;
 yBankLength = 2*buffer + numberCellWidth*cellSize;
-screwSize = 3.5719;
-screwLength = 10;
+screwSize = 2.9;
+screwLength = 5;
 screwHeadLength = 3;
 screwHeadDiameter = 4.2;
 
@@ -37,8 +37,8 @@ module lidConstructor(){
 
 module screwHead(){
   union(){
-    cylinder(h = screwLength, d = screwSize, $fn = 12);
-    cylinder(h = screwHeadLength, d = screwHeadDiameter);
+    cylinder(h = screwLength, d = screwSize, $fn = 40);
+    cylinder(h = screwHeadLength, d = screwHeadDiameter, $fn = 40);
   }
 }
 
