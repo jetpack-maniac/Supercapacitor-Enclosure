@@ -48,8 +48,8 @@ module supportSkeletize(){
   // this cuts away extra areas inside the center posts
   for(x=[1:numberCellWidth-1]){
     for(y=[1:numberCellLength-1]){
-      translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),buffer])
-      cylinder(h = height-buffer, d = (cellSize/2)*0.70);
+      translate([buffer + cellSize + (cellSize*(y-1)), buffer + cellSize + (cellSize*(x-1)) ,buffer])
+      cylinder(h = cellHeight - buffer, d = (cellSize/2)*0.70);
     }
   }
 
