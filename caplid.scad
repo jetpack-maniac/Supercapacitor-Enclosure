@@ -10,6 +10,8 @@ screwSize = 2.9;
 screwLength = 5;
 screwHeadLength = 3;
 screwHeadDiameter = 4.2;
+boltDiameter = 5;
+boltHeight = 10;
 
 module lidConstructor(){
   //cut the corners while drawing the shape out
@@ -43,6 +45,7 @@ module screwHead(){
 }
 
 module screwTapping(){
+  // these two cut exterior screwhead holes in the lid
   for(x = [0:numberCellLength - 1]){
     translate([buffer + cellSize + (cellSize*x), buffer, height - screwLength])
       screwHead();
@@ -55,6 +58,12 @@ module screwTapping(){
       screwHead();
     translate([xBankLength - buffer, buffer + cellSize + (cellSize*y), height - screwLength])
       screwHead();
+    
+    // this cuts the bolt terminal holes
+    translate([buffer + cellSize/2, buffer + cellSize/2, 0])
+      cylinder(d = boltDiameter, h = boltHeight, $fn = 20);
+    translate([xBankLength - buffer - cellSize/2, buffer + cellSize/2, 0])
+      cylinder(d = boltDiameter, h = boltHeight, $fn = 20);
   }
 }
 
