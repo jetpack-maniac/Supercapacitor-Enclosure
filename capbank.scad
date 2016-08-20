@@ -51,6 +51,16 @@ module supportSkeletize(){
       cylinder(h = height-buffer, d = (cellSize/2)*0.70);
     }
   }
+
+  for(x = [0:numberCellLength-1]){
+    translate([buffer + cellSize/4 + cellSize*x, buffer + cellSize/2, buffer])
+    cube([xBankLength - 2*buffer - 1.5*cellSize, yBankLength - 2*buffer - cellSize, height - buffer]);
+  }
+
+  for(y = [0:numberCellWidth-1]){
+    translate([buffer + cellSize/2, buffer + cellSize/4 + cellSize*y, buffer])
+    cube([xBankLength - 2*buffer - cellSize, cellSize/2, height - buffer]);
+  }
 }
 
 module screwTapping(){
