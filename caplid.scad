@@ -26,4 +26,20 @@ module bankCore(){
     translate([xBankLength-3*buffer,yBankLength-3*buffer,0]) cylinder(r=3*buffer, height);
 }
 
+module screwTapping(){
+    for(x=[0:numberCellLength-1]){
+        translate([buffer+cellSize+(cellSize*x),buffer,height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+        translate([buffer+cellSize+(cellSize*x),yBankLength-buffer,height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+    }
+
+    for(y=[0:numberCellWidth-1]){
+        translate([buffer,buffer+cellSize+(cellSize*y),height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+        translate([xBankLength-buffer,buffer+cellSize+(cellSize*y),height-screwLength])
+        cylinder(h = screwLength, d = screwSize);
+    }
+}
+
 bankCore();
