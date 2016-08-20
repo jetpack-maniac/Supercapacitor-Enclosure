@@ -1,12 +1,14 @@
 
 cellSize = 32.5;
-numberCellLength = 3;
-numberCellWidth = 2;
+numberCellLength = 2;
+numberCellWidth = 3;
 totalCells = numberCellLength*numberCellWidth;
 height = 80;
 buffer = 3;
 xBankLength = 2*buffer + numberCellLength*cellSize;
 yBankLength = 2*buffer + numberCellWidth*cellSize; 
+screwSize = 3.5719;
+screwLength = 10;
     
 module bankCore(){
     //cut the corners while drawing the shape out
@@ -34,7 +36,7 @@ module cellConstructor(){
 }
 
 module supportSkeletize(){
-    //this cuts away extra areas to reduce print time   
+    //this cuts away extra areas to reduce print time
     for(x=[1:numberCellWidth-1]){
         for(y=[1:numberCellLength-1]){
             translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),buffer])
@@ -43,9 +45,19 @@ module supportSkeletize(){
     }
 }
 
+module screwTapping(){
+    // adds screw holes for the lid
+    for(x=[0:numberCellWidth]){
+        for(y=[0:numberCellLength]){
+            translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),height-screwLength])
+            cylinder(h = screwLength, d = screwSize);
+        }
+    }    
+}
+
 difference(){
     bankCore();
     cellConstructor();
     supportSkeletize();
+    screwTapping();
 }
-
