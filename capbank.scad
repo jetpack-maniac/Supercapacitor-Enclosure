@@ -18,6 +18,7 @@ module bankCore(){
         translate([xBankLength-3*buffer,0,0]) cube([3*buffer,3*buffer,height]);
         translate([xBankLength-3*buffer,yBankLength-3*buffer,0]) cube([3*buffer,3*buffer,height]);
         translate([0,yBankLength-3*buffer,0]) cube([3*buffer,3*buffer,height]);
+        screwTapping();
     }
     
     translate([3*buffer,3*buffer,0]) cylinder(r=3*buffer, height);
@@ -59,5 +60,4 @@ difference(){
     bankCore();
     cellConstructor();
     supportSkeletize();
-    screwTapping();
 }
