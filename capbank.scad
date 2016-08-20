@@ -5,11 +5,10 @@ numberCellWidth = 2;
 totalCells = numberCellLength*numberCellWidth;
 height = 80;
 buffer = 3;
+xBankLength = 2*buffer + numberCellLength*cellSize;
+yBankLength = 2*buffer + numberCellWidth*cellSize; 
     
 module bankCore(){
-    xBankLength = 2*buffer + numberCellLength*cellSize;
-    yBankLength = 2*buffer + numberCellWidth*cellSize; 
-
     //cut the corners while drawing the shape out
     difference(){
         cube([xBankLength,yBankLength,height]);
@@ -38,8 +37,8 @@ module supportSkeletize(){
     //this cuts away extra areas to reduce print time   
     for(x=[1:numberCellWidth-1]){
         for(y=[1:numberCellLength-1]){
-            translate([buffer+(cellSize*1.5)+(cellSize*y),buffer+(cellSize*1.5)+(cellSize*x),buffer])
-            cylinder(h = height-buffer, d = (cellSize/2)*0.9);
+            translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),buffer])
+            cylinder(h = height-buffer, d = (cellSize/2)*0.70);
         }
     }
 }
@@ -49,3 +48,4 @@ difference(){
     cellConstructor();
     supportSkeletize();
 }
+
