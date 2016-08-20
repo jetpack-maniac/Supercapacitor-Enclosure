@@ -49,7 +49,7 @@ module supportSkeletize(){
   for(x=[1:numberCellWidth-1]){
     for(y=[1:numberCellLength-1]){
       translate([buffer + cellSize + (cellSize*(y-1)), buffer + cellSize + (cellSize*(x-1)) ,buffer])
-      cylinder(h = cellHeight - buffer, d = (cellSize/2)*0.70);
+      cylinder(h = cellHeight - buffer - screwLength, d = (cellSize/2)*0.70);
     }
   }
 
@@ -70,6 +70,7 @@ module supportSkeletize(){
 }
 
 module screwTapping(){
+  // these add the exterior screws
   for(x=[0:numberCellLength-1]){
     translate([buffer+cellSize+(cellSize*x),buffer,height-screwLength])
     cylinder(h = screwLength, d = screwSize, $fn = 12);
@@ -82,6 +83,14 @@ module screwTapping(){
     cylinder(h = screwLength, d = screwSize, $fn = 12);
     translate([xBankLength-buffer,buffer+cellSize+(cellSize*y),height-screwLength])
     cylinder(h = screwLength, d = screwSize, $fn = 12);
+  }
+  
+  // this adds interior screw holes in the posts
+  for(x = [1:numberCellLength]){
+    for(y = [1:numberCellWidth]){
+      translate([buffer + cellSize + (cellSize*(y-1)), buffer + cellSize + (cellSize*(x-1)), buffer + cellHeight - screwLength])
+      cylinder(h = screwLength, d = screwSize, $fn = 20);
+    }
   }
 }
 
