@@ -8,6 +8,8 @@ xBankLength = 2*buffer + numberCellLength*cellSize;
 yBankLength = 2*buffer + numberCellWidth*cellSize; 
 screwSize = 3.5719;
 screwLength = 10;
+screwHeadLength = 3;
+screwHeadDiameter = 4.2;
 
 module bankCore(){
     //cut the corners while drawing the shape out
@@ -26,19 +28,27 @@ module bankCore(){
     translate([xBankLength-3*buffer,yBankLength-3*buffer,0]) cylinder(r=3*buffer, height);
 }
 
+module screwHead(){
+    union(){
+        cylinder(h = screwLength, d = screwSize);
+        cylinder(h = screwHeadLength, d = screwHeadDiameter);
+    }
+    
+}
+
 module screwTapping(){
     for(x=[0:numberCellLength-1]){
         translate([buffer+cellSize+(cellSize*x),buffer,height-screwLength])
-        cylinder(h = screwLength, d = screwSize);
+        screwHead();
         translate([buffer+cellSize+(cellSize*x),yBankLength-buffer,height-screwLength])
-        cylinder(h = screwLength, d = screwSize);
+        screwHead();
     }
 
     for(y=[0:numberCellWidth-1]){
         translate([buffer,buffer+cellSize+(cellSize*y),height-screwLength])
-        cylinder(h = screwLength, d = screwSize);
+        screwHead();
         translate([xBankLength-buffer,buffer+cellSize+(cellSize*y),height-screwLength])
-        cylinder(h = screwLength, d = screwSize);
+        screwHead();
     }
 }
 
