@@ -1,9 +1,10 @@
 
 cellSize = 32.5;
+cellHeight = 80;
 numberCellLength = 2;
 numberCellWidth = 3;
 totalCells = numberCellLength*numberCellWidth;
-height = 80;
+height = 90;
 buffer = 3;
 xBankLength = 2*buffer + numberCellLength*cellSize;
 yBankLength = 2*buffer + numberCellWidth*cellSize;
@@ -44,7 +45,7 @@ module cellConstructor(){
 }
 
 module supportSkeletize(){
-  //this cuts away extra areas to reduce print time
+  // this cuts away extra areas inside the center posts
   for(x=[1:numberCellWidth-1]){
     for(y=[1:numberCellLength-1]){
       translate([buffer+cellSize+(cellSize*(y-1)),buffer+cellSize+(cellSize*(x-1)),buffer])
@@ -52,6 +53,7 @@ module supportSkeletize(){
     }
   }
 
+  // these two cut away the thin round walls between the cells
   for(x = [0:numberCellLength-1]){
     translate([buffer + cellSize/4 + cellSize*x, buffer + cellSize/2, buffer])
     cube([xBankLength - 2*buffer - 1.5*cellSize, yBankLength - 2*buffer - cellSize, height - buffer]);
@@ -61,6 +63,10 @@ module supportSkeletize(){
     translate([buffer + cellSize/2, buffer + cellSize/4 + cellSize*y, buffer])
     cube([xBankLength - 2*buffer - cellSize, cellSize/2, height - buffer]);
   }
+  
+  // this cuts the posts down for mounting things
+  translate([buffer + cellSize/2, buffer + cellSize/2, cellHeight])
+  cube([xBankLength - 2*buffer - cellSize, yBankLength - 2*buffer - cellSize, height - cellHeight]);  
 }
 
 module screwTapping(){
