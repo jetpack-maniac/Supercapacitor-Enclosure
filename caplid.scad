@@ -25,7 +25,7 @@ module lidConstructor(){
       cube([3*buffer, 3*buffer, height]);
     translate([0, yBankLength - 3*buffer, 0])
       cube([3*buffer, 3*buffer, height]);
-    screwTapping();
+    screwTapping("screw");
   }
 
   translate([3*buffer, 3*buffer, 0])
@@ -53,27 +53,35 @@ module screwHead(type){
   }
 }
 
-module screwTapping(){
+module screwTapping(type){
   // these two cut exterior screwhead holes in the lid
-  for(x = [0:numberCellLength - 1]){
-    translate([buffer + cellSize + (cellSize*x), buffer, height - screwLength])
-      screwHead("screw");
-    translate([buffer + cellSize + (cellSize*x), yBankLength - buffer, height - screwLength])
-      screwHead("screw");
+  if(type == "screw"){
+    for(x = [0:numberCellLength - 1]){
+      translate([buffer + cellSize + (cellSize*x), buffer, height - screwLength])
+        screwHead("screw");
+      translate([buffer + cellSize + (cellSize*x), yBankLength - buffer, height - screwLength])
+        screwHead("screw");
+    }
+
+    for(y = [0:numberCellWidth - 1]){
+      translate([buffer, buffer + cellSize + (cellSize*y), height - screwLength])
+        screwHead("screw");
+      translate([xBankLength - buffer, buffer + cellSize + (cellSize*y), height - screwLength])
+        screwHead("screw");
+    }
   }
 
-  for(y = [0:numberCellWidth - 1]){
-    translate([buffer, buffer + cellSize + (cellSize*y), height - screwLength])
-      screwHead("screw");
-    translate([xBankLength - buffer, buffer + cellSize + (cellSize*y), height - screwLength])
-      screwHead("screw");
-
+  if(type == "bolt"){
     // this cuts the bolt terminal holes
     translate([buffer + cellSize/2, buffer + cellSize/2, 0])
       screwHead("bolt");
     translate([xBankLength - buffer - cellSize/2, buffer + cellSize/2, 0])
       screwHead("bolt");
   }
+
 }
 
-lidConstructor();
+difference(){
+  lidConstructor();
+  screwTapping("bolt");
+}
