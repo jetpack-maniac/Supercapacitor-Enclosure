@@ -98,6 +98,6 @@ module screwTapping(){
 
 difference(){
   constructBase();
-  cellConstructor();
   supportSkeletize();
+  cellConstructor();
 }
