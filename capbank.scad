@@ -1,18 +1,17 @@
 
 cellSize = 32.5;
 cellHeight = 80;
-numberCellLength = 2;
-numberCellWidth = 3;
-totalCells = numberCellLength*numberCellWidth;
-height = 90;
-buffer = 3;
+numberCellLength = 2; // this is along the x dim
+numberCellWidth = 3; // this is along the y dim
+height = 90; // total enclosure height excluding the lid
+buffer = 3; // the wall thickness
 xBankLength = 2*buffer + numberCellLength*cellSize;
 yBankLength = 2*buffer + numberCellWidth*cellSize;
 screwSize = 3.4;
 screwLength = 10;
 
-module bankCore(){
-  //cut the corners while drawing the shape out
+module constructBase(){
+  // draw the shape out, cut the corners, cut screw holes
   difference(){
       cube([xBankLength, yBankLength, height]);
       cube([3*buffer, 3*buffer, height]);
@@ -22,9 +21,10 @@ module bankCore(){
         cube([3*buffer, 3*buffer, height]);
       translate([0, yBankLength - 3*buffer, 0])
         cube([3*buffer,3*buffer,height]);
-      screwTapping();
+      screwTapping(); // screws are cut before the corners are filled back in
     }
 
+    // replace the cut corners with rounded corners
     translate([3*buffer, 3*buffer, 0])
       cylinder(r = 3*buffer, height);
     translate([xBankLength - 3*buffer, 3*buffer, 0])
@@ -63,10 +63,10 @@ module supportSkeletize(){
     translate([buffer + cellSize/2, buffer + cellSize/4 + cellSize*y, buffer])
     cube([xBankLength - 2*buffer - cellSize, cellSize/2, height - buffer]);
   }
-  
-  // this cuts the posts down for mounting things
+
+  // this lowers the center posts down for mounting things
   translate([buffer + cellSize/2, buffer + cellSize/2, cellHeight])
-  cube([xBankLength - 2*buffer - cellSize, yBankLength - 2*buffer - cellSize, height - cellHeight]);  
+  cube([xBankLength - 2*buffer - cellSize, yBankLength - 2*buffer - cellSize, height - cellHeight]);
 }
 
 module screwTapping(){
@@ -84,7 +84,7 @@ module screwTapping(){
     translate([xBankLength-buffer,buffer+cellSize+(cellSize*y),height-screwLength])
     cylinder(h = screwLength, d = screwSize, $fn = 20);
   }
-  
+
   // this adds interior screw holes in the posts
   for(x = [1:numberCellLength]){
     for(y = [1:numberCellWidth]){
@@ -97,7 +97,7 @@ module screwTapping(){
 // Final Assembly!
 
 difference(){
-  bankCore();
+  constructBase();
   cellConstructor();
   supportSkeletize();
 }
