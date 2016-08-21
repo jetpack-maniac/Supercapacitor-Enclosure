@@ -12,6 +12,8 @@ screwHeadLength = 3;
 screwHeadDiameter = 4.2;
 boltDiameter = 5;
 boltHeight = 10;
+boltHeadDiameter = 10;
+boltHeadLength = 3;
 
 module lidConstructor(){
   //cut the corners while drawing the shape out
@@ -37,33 +39,41 @@ module lidConstructor(){
     cylinder(r=3*buffer, height);
 }
 
-module screwHead(){
-  union(){
-    cylinder(h = screwLength, d = screwSize, $fn = 40);
-    cylinder(h = screwHeadLength, d = screwHeadDiameter, $fn = 40);
+module screwHead(type){
+  if(type=="screw"){
+    union(){
+      cylinder(h = screwLength, d = screwSize, $fn = 40);
+      cylinder(h = screwHeadLength, d = screwHeadDiameter, $fn = 40);
+    }
+  }
+  else if(type=="bolt"){
+    union(){
+      cylinder(d = boltDiameter, h = boltHeight, $fn = 40);
+      cylinder(d = boltHeadDiameter, h = boltHeadLength, $fn = 40);
+    }
   }
 }
 
-module screwTapping(){
+module screwTapping(ty){
   // these two cut exterior screwhead holes in the lid
   for(x = [0:numberCellLength - 1]){
     translate([buffer + cellSize + (cellSize*x), buffer, height - screwLength])
-      screwHead();
+      screwHead("screw");
     translate([buffer + cellSize + (cellSize*x), yBankLength - buffer, height - screwLength])
-      screwHead();
+      screwHead("screw");
   }
 
   for(y = [0:numberCellWidth - 1]){
     translate([buffer, buffer + cellSize + (cellSize*y), height - screwLength])
-      screwHead();
+      screwHead("screw");
     translate([xBankLength - buffer, buffer + cellSize + (cellSize*y), height - screwLength])
-      screwHead();
-    
+      screwHead("screw");
+
     // this cuts the bolt terminal holes
     translate([buffer + cellSize/2, buffer + cellSize/2, 0])
-      cylinder(d = boltDiameter, h = boltHeight, $fn = 20);
+      screwHead("bolt");
     translate([xBankLength - buffer - cellSize/2, buffer + cellSize/2, 0])
-      cylinder(d = boltDiameter, h = boltHeight, $fn = 20);
+      screwHead("bolt");
   }
 }
 
