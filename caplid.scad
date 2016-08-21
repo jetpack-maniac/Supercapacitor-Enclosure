@@ -1,7 +1,6 @@
 cellSize = 32.5;
 numberCellLength = 2;
 numberCellWidth = 3;
-totalCells = numberCellLength*numberCellWidth;
 height = 5;
 buffer = 3;
 xBankLength = 2*buffer + numberCellLength*cellSize;
@@ -10,9 +9,9 @@ screwSize = 2.9;
 screwLength = 5;
 screwHeadLength = 3;
 screwHeadDiameter = 4.2;
-boltDiameter = 5;
+boltDiameter = 8;
 boltHeight = 10;
-boltHeadDiameter = 10;
+boltHeadDiameter = 12;
 boltHeadLength = 3;
 
 module lidConstructor(){
@@ -54,7 +53,7 @@ module screwHead(type){
   }
 }
 
-module screwTapping(ty){
+module screwTapping(){
   // these two cut exterior screwhead holes in the lid
   for(x = [0:numberCellLength - 1]){
     translate([buffer + cellSize + (cellSize*x), buffer, height - screwLength])
